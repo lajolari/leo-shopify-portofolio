@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { shopifyFetch } from "../lib/ShopifyClient";
 import { GET_PRODUCTS } from "../lib/Queries";
@@ -17,6 +17,7 @@ interface Product {
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,19 +43,42 @@ export default function Products() {
     loadProducts();
   }, []);
 
+  // Filtrado local usando useMemo para performance
+  const filteredProducts = useMemo(
+    () =>
+      products.filter((product) =>
+        product.title.toLowerCase().includes(search.toLowerCase())
+      ),
+    [products, search]
+  );
+
   return (
     <section className="py-12 bg-gray-100 min-h-screen">
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-8 text-center">Products</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">Products</h2>
 
+        {/* Input de búsqueda */}
+        <div className="mb-8 flex justify-center">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="border border-gray-300 rounded px-4 py-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        {/* Lista de productos */}
         {loading ? (
           <p className="text-center text-gray-500">Loading products...</p>
-        ) : products.length === 0 ? (
-          <p className="text-center text-gray-500">No products available</p>
+        ) : filteredProducts.length === 0 ? (
+          <p className="text-center text-gray-500">No products found</p>
         ) : (
           <ProductList
-            products={products}
-            onProductClick={(product) => navigate(`/product/${encodeURIComponent(product.id)}`)}
+            products={filteredProducts}
+            onProductClick={(product) =>
+              navigate(`/product/${encodeURIComponent(product.id)}`)
+            }
           />
         )}
       </div>
