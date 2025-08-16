@@ -22,6 +22,9 @@ export default function Navbar() {
           >
             Contact
           </a>
+          <Link to="/about" className="hover:no-underline">
+            <span>About this page</span>
+          </Link>
         </div>
       </div>
     </nav>
