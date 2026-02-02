@@ -37,5 +37,5 @@ npm run build
 ```
 
 ## 🌐 Deployment
-This project is ready to be deployed to **Vercel** or **Netlify**.  
-Just connect your repository and set the environment variables in the platform’s settings.
+This project was alrady deployed to **Vercel**, link to the deployed version https://leo-shopify-portofolio.vercel.app/  
+Just connect to the repository and set the environment variables in the platform’s settings.
