@@ -17,7 +17,7 @@ export default function Navbar() {
             Projects
           </a>
           <a 
-            href="mailto:tuemail@ejemplo.com" 
+            href="mailto:leolama18@gmail.com" 
             className="hover:no-underline"
           >
             Contact
